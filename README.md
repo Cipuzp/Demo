@@ -8,5 +8,4 @@ Hello Git!
 测试在没有网络的情况下是否能用本地GitBash
 
 测试从GitHub下载文件到本地！
-
 测试Ubuntu环境下的Git使用情况!!
