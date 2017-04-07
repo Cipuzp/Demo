@@ -9,3 +9,4 @@ Hello Git!
 
 测试从GitHub下载文件到本地！
 测试Ubuntu环境下的Git使用情况!!
+测试MacOS环境下的Git使用情况!!
