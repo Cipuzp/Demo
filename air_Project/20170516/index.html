@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>Hello APP</title>
+        <link rel="stylesheet" type="text/css" href="./css/api.css" />
+        <style type="text/css">
+            html,
+            body {
+                height: 100%;
+                background-color: #eeeeee;
+            }
+            /*弹性盒子布局*/
+            
+            body {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-flex-flow: column;
+                flex-flow: column;
+            }
+            
+            .header {
+                height: 70px;
+                width: 100%;
+                background-color: #f6dc25;
+            }
+            
+            .place-holder {
+                width: 100%;
+                -webkit-box-flex: 1;
+                -webkit-flex: 1;
+                flex: 1;
+                background-color: #eeeeee;
+            }
+            
+            .footer {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-flex-flow: row;
+                flex-flow: row;
+                width: 100%;
+                height: 50px;
+                background-color: #f6dc25;
+            }
+            
+            .footer .menu {
+                box-sizing: border-box;
+                padding-top: 29px;
+                padding-bottom: 8px;
+                -webkit-box-flex: 1;
+                -webkit-flex: 1;
+                flex: 1;
+                height: 50px;
+                color: #857f6f;
+                text-align: center;
+                font-size: 13px;
+                background-size: 20px 20px;
+                background-position: center 5px;
+                background-repeat: no-repeat;
+            }
+            
+            .footer .home {
+                background-image: url(./image/footer/homeF.png);
+            }
+            
+            .footer .home.active {
+                background-image: url(./image/footer/homeT.png);
+                color: #000000;
+            }
+            
+            .footer .device {
+                background-image: url(./image/footer/deviceF.png);
+            }
+            
+            .footer .device.active {
+                background-image: url(./image/footer/deviceT.png);
+                color: #000000;
+            }
+            
+            .footer .message {
+                background-image: url(./image/footer/messageF.png);
+            }
+            
+            .footer .message.active {
+                background-image: url(./image/footer/messageT.png);
+                color: #000000;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header id="header" class="header"></header>
+        <section class="place-holder"></section>
+        <footer class="footer">
+            <div class="menu device active" >我的设备</div>
+            <div class="menu message " ">消息中心</div>
+            <div class="menu home " ">个人中心</div>
+            <!-- onclick="change(2) -->
+        </footer>
+    </body>
+    <script type="text/javascript" src="./script/api.js"></script>
+    <script type="text/javascript">
+        apiready = function() {
+            // init();
+            showWelcomePage();
+        };
+
+        // var menus;
+
+        // function init() {
+        //     var header = $api.byId('header');
+        //     var footer = $api.byId('footer');
+        //     $api.fixStatusBar(header); //兼容沉浸化
+        //     menus = $api.domAll(footer, '.menu'); //取footer下的menu元素
+        // }
+
+        // function change(index) {
+        //     for (var i = 0; i < menus.length; i++) {
+        //         if (i == index) {
+        //             $api.addCls(menus[i], 'active');
+        //         } else {
+        //             $api.removeCls(menus[i], 'active');
+        //         }
+        //     }
+        // }
+
+        function showWelcomePage() {
+            var frames = [];
+            for (var i = 0; i < 4; i++) {
+                frames.push({
+                    name: 'welcome_frame_' + i,
+                    url: './html/welcome_frame_' + i + '.html',
+                    bounces: false,
+                    bgColor: './image/welcome/' + (i + 1) + '.png'
+                });
+            }
+
+            api.openFrameGroup({
+                name: 'welcome_group',
+                scrollEnabled: true,
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: api.winWidth,
+                    h: api.winHeight
+                },
+                index: 0,
+                frames: frames
+            });
+        };
+    </script>
+
+</html>
