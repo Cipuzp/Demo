@@ -92,44 +92,86 @@
                 background-image: url(./image/footer/messageT.png);
                 color: #000000;
             }
+            
+            .header-item {
+                position: relative;
+                display: none;
+            }
+            
+            .header-item-act {
+                display: block;
+            }
+            
+            .header-item .textDevice {
+                float: left;
+                padding-top: 35px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
+            
+            .header-item .textMessage {
+                float: left;
+                padding-top: 35px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
+            
+            .header-item .textHome {
+                float: left;
+                padding-top: 35px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
         </style>
     </head>
 
     <body>
-        <header id="header" class="header"></header>
+        <header id="header" class="header">
+            <div class="header-item header-item-act" id="device">
+                <div class="textDevice" id="textDevice">我的设备</div>
+                <!-- <img src="./image/header/menu.png" /> -->
+            </div>
+            <div class="header-item " id=" message ">
+                <div class="textMessage " id="textMessage ">消息中心</div>
+            </div>
+            <div class="header-item " id="home ">
+                <div class="textHome " id="textHome ">个人中心</div>
+            </div>
+        </header>
         <section class="place-holder"></section>
-        <footer class="footer">
-            <div class="menu device active" >我的设备</div>
-            <div class="menu message " ">消息中心</div>
-            <div class="menu home " ">个人中心</div>
+        <footer class="footer" id="footer">
+            <div class="menu device active" onclick="change(0)">我的设备</div>
+            <div class="menu message " onclick="change(1)">消息中心</div>
+            <div class="menu home " onclick="change(2)">个人中心</div>
             <!-- onclick="change(2) -->
         </footer>
     </body>
     <script type="text/javascript" src="./script/api.js"></script>
     <script type="text/javascript">
         apiready = function() {
-            // init();
+            init();
+            change(0);
             showWelcomePage();
         };
 
         // var menus;
+        var headers, footers, menus, headerHeight, footerHeight;
 
-        // function init() {
-        //     var header = $api.byId('header');
-        //     var footer = $api.byId('footer');
-        //     $api.fixStatusBar(header); //兼容沉浸化
-        //     menus = $api.domAll(footer, '.menu'); //取footer下的menu元素
-        // }
+        function init() {
+            var header = $api.byId('header');
+            var footer = $api.byId('footer');
+            $api.fixStatusBar(header); //兼容沉浸化
+            headers = $api.domAll(header, '.header-item');
+            footers = $api.domAll(footer, 'div');
+            // for (var i = 0; i < headers.length; i++) {
+            //     $api.fixStatusBar(headers[i]);
+            // }
+            // menus = $api.domAll(footer, '.menu'); //取footer下的menu元素
+            headerHeight = $api.offset(header).h;
+            footerHeight = $api.offset(footer).h;
+        };
 
-        // function change(index) {
-        //     for (var i = 0; i < menus.length; i++) {
-        //         if (i == index) {
-        //             $api.addCls(menus[i], 'active');
-        //         } else {
-        //             $api.removeCls(menus[i], 'active');
-        //         }
-        //     }
-        // }
+
 
         function showWelcomePage() {
             var frames = [];
@@ -154,6 +196,43 @@
                 index: 0,
                 frames: frames
             });
+        };
+
+        var frames = ['device_frame', 'message_frame', 'home_frame'];
+
+        function change(index) {
+            for (var i = 0; i < headers.length; i++) {
+                if (index == i) {
+                    $api.addCls(headers[i], 'header-item-act');
+                    $api.addCls(footers[i], 'active');
+                    api.openFrame({
+                        name: frames[i],
+                        url: './html/' + frames[i] + '.html',
+                        rect: {
+                            x: 0,
+                            y: headerHeight,
+                            w: 'auto',
+                            h: api.frameHeight - headerHeight - footerHeight
+                        },
+                        pageParam: {
+                            index: i
+                        },
+                        bounces: true,
+                        vScrollBarEnabled: false,
+                        hScrollBarEnabled: false
+                    });
+                } else {
+                    $api.removeCls(headers[i], 'header-item-act');
+                    $api.removeCls(footers[i], 'active');
+                    // api.closeFrame({           //关闭
+                    //     name: 'frameNames[i]'
+                    // });
+                    api.setFrameAttr({ //隐藏
+                        name: frames[i],
+                        hidden: true
+                    });
+                }
+            }
         };
     </script>
 
