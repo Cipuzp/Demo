@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>Hello APP</title>
+        <link rel="stylesheet" type="text/css" href="./css/api.css" />
+        <style type="text/css">
+            html,
+            body {
+                height: 100%;
+                background-color: #eeeeee;
+            }
+            /*弹性盒子布局*/
+            
+            body {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-flex-flow: column;
+                flex-flow: column;
+            }
+            
+            .header {
+                height: 70px;
+                width: 100%;
+                background-color: #f6dc25;
+            }
+            
+            .place-holder {
+                width: 100%;
+                -webkit-box-flex: 1;
+                -webkit-flex: 1;
+                flex: 1;
+                background-color: #eeeeee;
+            }
+            
+            .footer {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: horizontal;
+                -webkit-flex-flow: row;
+                flex-flow: row;
+                width: 100%;
+                height: 50px;
+                background-color: #f6dc25;
+            }
+            
+            .footer .menu {
+                box-sizing: border-box;
+                padding-top: 29px;
+                padding-bottom: 8px;
+                -webkit-box-flex: 1;
+                -webkit-flex: 1;
+                flex: 1;
+                height: 50px;
+                color: #857f6f;
+                text-align: center;
+                font-size: 13px;
+                background-size: 20px 20px;
+                background-position: center 5px;
+                background-repeat: no-repeat;
+            }
+            
+            .footer .home {
+                background-image: url(./image/footer/homeF.png);
+            }
+            
+            .footer .home.active {
+                background-image: url(./image/footer/homeT.png);
+                color: #000000;
+            }
+            
+            .footer .device {
+                background-image: url(./image/footer/deviceF.png);
+            }
+            
+            .footer .device.active {
+                background-image: url(./image/footer/deviceT.png);
+                color: #000000;
+            }
+            
+            .footer .message {
+                background-image: url(./image/footer/messageF.png);
+            }
+            
+            .footer .message.active {
+                background-image: url(./image/footer/messageT.png);
+                color: #000000;
+            }
+            
+            .header-item {
+                position: relative;
+                display: none;
+            }
+            
+            .header-item-act {
+                display: block;
+            }
+            
+            .header-item .textDevice {
+                float: left;
+                padding-top: 35px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
+            
+            .header-item .textMessage {
+                float: left;
+                padding-top: 35px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
+            
+            .header-item .textHome {
+                float: left;
+                padding-top: 35px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
+            
+            .header-item img {
+                float: right;
+                padding-top: 30px;
+                padding-right: 15px;
+                background-size: 5px;
+                width: 30px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header id="header" class="header">
+            <div class="header-item header-item-act" id="device">
+                <div class="textDevice" id="textDevice">我的设备</div>
+                <img src="./image/footer/menu.png" />
+            </div>
+            <div class="header-item " id=" message ">
+                <div class="textMessage " id="textMessage ">消息中心</div>
+            </div>
+            <div class="header-item " id="home ">
+                <div class="textHome " id="textHome ">个人中心</div>
+            </div>
+        </header>
+        <section class="place-holder"></section>
+        <footer class="footer" id="footer">
+            <div class="menu device active" onclick="change(0)">我的设备</div>
+            <div class="menu message " onclick="change(1)">消息中心</div>
+            <div class="menu home " onclick="change(2)">个人中心</div>
+            <!-- onclick="change(2) -->
+        </footer>
+    </body>
+    <script type="text/javascript" src="./script/api.js"></script>
+    <script type="text/javascript">
+        apiready = function() {
+            init();
+            change(0);
+            showWelcomePage();
+        };
+
+        // var menus;
+        var headers, footers, menus, headerHeight, footerHeight;
+
+        function init() {
+            var header = $api.byId('header');
+            var footer = $api.byId('footer');
+            $api.fixStatusBar(header); //兼容沉浸化
+            headers = $api.domAll(header, '.header-item');
+            footers = $api.domAll(footer, 'div');
+            // for (var i = 0; i < headers.length; i++) {
+            //     $api.fixStatusBar(headers[i]);
+            // }
+            // menus = $api.domAll(footer, '.menu'); //取footer下的menu元素
+            headerHeight = $api.offset(header).h;
+            footerHeight = $api.offset(footer).h;
+        };
+
+
+
+        function showWelcomePage() {
+            var frames = [];
+            for (var i = 0; i < 4; i++) {
+                frames.push({
+                    name: 'welcome_frame_' + i,
+                    url: './html/welcome_frame_' + i + '.html',
+                    bounces: false,
+                    bgColor: './image/welcome/' + (i + 1) + '.png'
+                });
+            }
+
+            api.openFrameGroup({
+                name: 'welcome_group',
+                scrollEnabled: true,
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: api.winWidth,
+                    h: api.winHeight
+                },
+                index: 0,
+                frames: frames
+            });
+        };
+
+        var frames = ['device_frame', 'message_frame', 'home_frame'];
+
+        function change(index) {
+            for (var i = 0; i < headers.length; i++) {
+                if (index == i) {
+                    $api.addCls(headers[i], 'header-item-act');
+                    $api.addCls(footers[i], 'active');
+                    api.openFrame({
+                        name: frames[i],
+                        url: './html/' + frames[i] + '.html',
+                        rect: {
+                            x: 0,
+                            y: headerHeight,
+                            w: 'auto',
+                            h: api.frameHeight - headerHeight - footerHeight
+                        },
+                        pageParam: {
+                            index: i
+                        },
+                        bounces: true,
+                        vScrollBarEnabled: false,
+                        hScrollBarEnabled: false
+                    });
+                } else {
+                    $api.removeCls(headers[i], 'header-item-act');
+                    $api.removeCls(footers[i], 'active');
+                    // api.closeFrame({           //关闭
+                    //     name: 'frameNames[i]'
+                    // });
+                    api.setFrameAttr({ //隐藏
+                        name: frames[i],
+                        hidden: true
+                    });
+                }
+            }
+        };
+    </script>
+
+</html>
