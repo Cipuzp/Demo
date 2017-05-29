@@ -54,11 +54,15 @@
         };
 
         function init() {
-            var header=$api.byId('header');
+            var header = $api.byId('header');
             $api.fixStatusBar(header);
         }
 
         function skip() {
+            api.setPrefs({
+                key: 'welcome_page_show',
+                value: '1'
+            });
             api.closeFrameGroup({
                 name: 'welcome_group'
             });

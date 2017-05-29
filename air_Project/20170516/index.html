@@ -182,28 +182,39 @@
 
 
         function showWelcomePage() {
-            var frames = [];
-            for (var i = 0; i < 4; i++) {
-                frames.push({
-                    name: 'welcome_frame_' + i,
-                    url: './html/welcome_frame_' + i + '.html',
-                    bounces: false,
-                    bgColor: './image/welcome/' + (i + 1) + '.png'
-                });
-            }
+            api.getPrefs({
+                key: 'welcome_page_show'
+            }, function(ret, err) {
+                if ('' != ret.value) {
+                    return;
+                }
+                var frames = [];
+                for (var i = 0; i < 4; i++) {
+                    frames.push({
+                        name: 'welcome_frame_' + i,
+                        url: './html/welcome_frame_' + i + '.html',
+                        bounces: false,
+                        bgColor: './image/welcome/' + (i + 1) + '.png'
+                    });
+                }
 
-            api.openFrameGroup({
-                name: 'welcome_group',
-                scrollEnabled: true,
-                rect: {
-                    x: 0,
-                    y: 0,
-                    w: api.winWidth,
-                    h: api.winHeight
-                },
-                index: 0,
-                frames: frames
+                api.openFrameGroup({
+                    name: 'welcome_group',
+                    scrollEnabled: true,
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    index: 0,
+                    frames: frames
+                });
             });
+            // if (hasShow){
+            //     return;
+            // }
+
         };
 
         var frames = ['device_frame', 'message_frame', 'home_frame'];
@@ -242,6 +253,8 @@
                 }
             }
         };
+
+        
     </script>
 
 </html>
